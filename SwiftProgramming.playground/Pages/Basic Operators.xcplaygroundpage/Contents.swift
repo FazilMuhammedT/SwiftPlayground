@@ -48,7 +48,7 @@ let (x, y) = (1, 2) // x is equal to 1, and y is equal to 2
 //: ### Remainder Operator
 //: The remainder operator (`a % b`) works out how many multiples of b will fit inside a and returns the value that is left over (known as the *remainder*).
 //:
-//: The remainder operator (%) is also known as a *modulo operator* in other languages. However, its behavior in Swift for negative numbers means that, strictly speaking, it’s a remainder rather than a modulo operation.
+//: The remainder operator (`%`) is also known as a *modulo operator* in other languages. However, its behavior in Swift for negative numbers means that, strictly speaking, it’s a remainder rather than a modulo operation.
 //:
 //: You can fit two 4s inside 9, and the remainder is 1. In Swift, this would be written as:
 //:
@@ -273,4 +273,5 @@ if (enteredDoorCode && passedRetinaScan) || hasDoorKey || knowsOverridePassword 
     print("ACCESS DENIED")
 } // Prints "Welcome!"
 //: Readability is always preferred over brevity; use parentheses where they help to make your intentions clear.
+//:
 //: [Next](@next)

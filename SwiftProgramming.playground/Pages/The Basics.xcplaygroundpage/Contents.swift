@@ -198,7 +198,7 @@ serverResponseCode = nil // serverResponseCode now contains no value
 var surveyAnswer: String? // surveyAnswer is automatically set to nil
 //:
 //: ### If Statements and Forced Unwrapping
-//: You can use an `if` statement to find out whether an optional contains a value by comparing the optional against `nil`. You perform this comparison with the “equal to” operator (==) or the “not equal to” operator (!=).
+//: You can use an `if` statement to find out whether an optional contains a value by comparing the optional against `nil`. You perform this comparison with the “equal to” operator (`==`) or the “not equal to” operator (`!=`).
 //:
 //: If an optional has a value, it’s considered to be “not equal to” `nil`:
 if convertedNumber != nil {

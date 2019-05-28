@@ -236,13 +236,18 @@ for genre in favoriteGenresSet {
 // Jazz
 // Hip hop
 //: Swift’s `Set` type does not have a defined ordering. To iterate over the values of a set in a specific order, use the `sorted()` method, which returns the set’s elements as an array sorted using the `<` operator.
-
 for genre in favoriteGenresSet.sorted() {
     print("\(genre)")
 }
 // Classical
 // Hip hop
 // Jazz
+for genre in favoriteGenresSet.sorted(by: >) {
+    print("\(genre)")
+}
+// Jazz
+// Hip hop
+// Classical
 //:
 //: ## Performing Set Operations
 //: You can efficiently perform fundamental set operations, such as combining two sets together, determining which values two sets have in common, or determining whether two sets contain all, some, or none of the same values.

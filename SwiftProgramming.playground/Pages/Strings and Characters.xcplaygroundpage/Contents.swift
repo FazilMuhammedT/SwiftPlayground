@@ -191,8 +191,7 @@ print(#"6 times 7 is \#(6 * 7)."#)
 //:
 //: In both cases, the letter `é` is represented as a single Swift Character value that represents an extended grapheme cluster. In the first case, the cluster contains a single scalar; in the second case, it’s a cluster of two scalars:
 let eAcute: Character = "\u{E9}"                         // é
-let combinedEAcute: Character = "\u{65}\u{301}"          // e followed by
-// eAcute is é, combinedEAcute is é
+let combinedEAcute: Character = "\u{65}\u{301}"          // e followed by eAcute is é, combinedEAcute is é
 //:
 //: Extended grapheme clusters are a flexible way to represent many complex script characters as a single Character value. For example, Hangul syllables from the Korean alphabet can be represented as either a precomposed or decomposed sequence. Both of these representations qualify as a single `Character` value in Swift:
 let precomposed: Character = "\u{D55C}"                  // 한
@@ -239,7 +238,6 @@ print("the number of characters in \(word) is \(word.count)")
 //: You can use subscript syntax to access the `Character` at a particular `String` index.
 let greeting = "Guten Tag!"
 greeting[greeting.startIndex]
-greeting[greeting.startIndex]
 // G
 greeting[greeting.index(before: greeting.endIndex)]
 // !
@@ -249,7 +247,6 @@ let index = greeting.index(greeting.startIndex, offsetBy: 7)
 greeting[index]
 // a
 //: Attempting to access an index outside of a string’s range or a `Character` at an index outside of a string’s range will trigger a runtime error.
-
 //greeting[greeting.endIndex] // Error
 //greeting.index(after: greeting.endIndex) // Error
 //: Use the `indices` property to access all of the indices of individual characters in a string.
