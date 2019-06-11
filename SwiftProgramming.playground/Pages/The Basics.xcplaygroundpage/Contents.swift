@@ -8,13 +8,22 @@
 //: Constants and variables must be declared before they’re used. You declare constants with the `let` keyword and variables with the `var` keyword.
 let maximumNumberOfLoginAttempts = 10
 var currentLoginAttempt = 0
-//:This code can be read as: “Declare a new constant called `maximumNumberOfLoginAttempts`, and give it a value of `10`. Then, declare a new variable called c`urrentLoginAttempt`, and give it an initial value of `0`.”
+//: This code can be read as: “Declare a new constant called `maximumNumberOfLoginAttempts`, and give it a value of `10`. Then, declare a new variable called c`urrentLoginAttempt`, and give it an initial value of `0`.” \
+//: You can declare multiple constants or multiple variables on a single line, separated by commas:
+var x = 0.0, y = 0.0, z = 0.0
+//: - NOTE:
+//: If a stored value in your code won’t change, always declare it as a constant with the `let` keyword. Use variables only for storing values that need to be able to change.
 //:
 //: ### Type Annotations
 //: Provide a *type annotation* when you declare a constant or variable, to be clear about the kind of values the constant or variable can store.
 var welcomeMessage: String
 //: This code can be read as: “Declare a variable called `welcomeMessage` that is of type `String`.”
 welcomeMessage = "Hello"
+//:
+//: You can define multiple related variables of the same type on a single line, separated by commas, with a single type annotation after the final variable name:
+var red, green, blue: Double
+//: - NOTE:
+//: It’s rare that you need to write type annotations in practice. If you provide an initial value for a constant or variable at the point that it’s defined, Swift can almost always infer the type to be used for that constant or variable, as described in [Type Safety and Type Inference](https://docs.swift.org/swift-book/LanguageGuide/TheBasics.html#ID322). In the `welcomeMessage` example above, no initial value is provided, and so the type of the `welcomeMessage` variable is specified with a type annotation rather than being inferred from an initial value.
 //:
 //: ### Naming Constants and Variables
 //: Constant and variable names can contain almost any character, including Unicode characters:
@@ -27,7 +36,7 @@ friendlyWelcome = "Bonjour!" // friendlyWelcome is now "Bonjour!
 
 let languageName = "Swift"
 //languageName = "Swift++" // This is a compile-time error: languageName cannot be changed.
-
+//:
 //: ### Printing Constants and Variables
 //: Print the current value of a constant or variable with the `print(_:separator:terminator:)` function
 print(friendlyWelcome) //Prints "Bonjour!"
@@ -109,11 +118,11 @@ let oneMillion = 1_000_000
 let justOverOneMillion = 1_000_000.000_000_1
 //:
 //: ## Numeric Type Conversion
+//: Use the `Int` type for all general-purpose integer constants and variables in your code, even if they’re known to be nonnegative. Using the default integer type in everyday situations means that integer constants and variables are immediately interoperable in your code and will match the inferred type for integer literal values.
 //: ### Integer Conversion
 //:  A number that won’t fit into a constant or variable of a sized integer type is reported as an error when your code is compiled:
 //let cannotBeNegative: UInt8 = -1 // UInt8 cannot store negative numbers, and so this will report an error
 //let tooBig: Int8 = Int8.max + 1 // Int8 cannot store a number larger than its maximum value, and so this will also report an error
-//:
 //: To convert one specific number type to another, you initialize a new number of the desired type with the existing value.
 let twoThousand: UInt16 = 2_000
 let one: UInt8 = 1
@@ -126,7 +135,9 @@ let pointOneFourOneFiveNine = 0.14159
 let doublePi = Double(three) + pointOneFourOneFiveNine // doublePi equals 3.14159, and is inferred to be of type Double
 //: Floating-point to integer conversion must also be made explicit. An integer type can be initialized with a `Double` or `Float` value:
 let integerPi = Int(pi) // integerPi equals 3, and is inferred to be of type Int
-//: Floating-point values are always truncated when used to initialize a new integer value in this way.
+//: Floating-point values are always truncated when used to initialize a new integer value in this way. This means that `4.75` becomes `4`, and `-3.9` becomes `-3`.
+//: - NOTE:
+//: The rules for combining numeric constants and variables are different from the rules for numeric literals. The literal value `3` can be added directly to the literal value `0.14159`, because number literals don’t have an explicit type in and of themselves. Their type is inferred only at the point that they’re evaluated by the compiler.
 //:
 //: ## Type Aliases
 //: *Type aliases* define an alternative name for an existing type. You define type aliases with the `typealias` keyword.
@@ -137,14 +148,12 @@ var maxAmplitudeFound = AudioSample.min // maxAmplitudeFound is now 0
 //: Swift has a basic *Boolean* type, called `Bool`. Boolean values are referred to as `logical`, because they can only ever be true or false. Swift provides two Boolean constant values, `true` and `false`:
 let orangesAreOrange = true
 let turnipsAreDelicious = false
-//:
 //: Boolean values are particularly useful when you work with conditional statements such as the `if` statement:
 if turnipsAreDelicious {
     print("Mmm, tasty turnips!")
 } else {
     print("Eww, turnips are horrible.")
 } // Prints "Eww, turnips are horrible."
-//:
 //: Swift’s type safety prevents non-Boolean values from being substituted for `Bool`. The following example reports a compile-time error:
 /*let i = 1
 if i {
@@ -155,35 +164,36 @@ let i = 1
 if i == 1 {
     // this example will compile successfully
 }
+//: The result of the `i == 1` comparison is of type `Bool`, and so this second example passes the type-check.
 //:
 //: ## Tuples
 //: *Tuples* group multiple values into a single compound value. The values within a tuple can be of any type and don’t have to be of the same type as each other.
 let http404Error = (404, "Not Found") // http404Error is of type (Int, String), and equals (404, "Not Found")
-//: It can be described as “a tuple of type `(Int, String)`”.
-//:
+//: It can be described as “a tuple of type `(Int, String)`”. \
 //: We can *decompose* a tuple’s contents into separate constants or variables, which then can be accessed as usual:
 let (statusCode, statusMessage) = http404Error
 print("The status code is \(statusCode)") // Prints "The status code is 404"
 print("The status message is \(statusMessage)") // Prints "The status message is Not Found"
-//:
 //: If we need only some of the tuple’s values, ignore parts of the tuple with an underscore (`_`) when you decompose the tuple:
 let (justTheStatusCode, _) = http404Error
 print("The status code is \(justTheStatusCode)") // Prints "The status code is 404"
-//:
 //: Alternatively, access the individual element values in a tuple using index numbers starting at zero:
 print("The status code is \(http404Error.0)") // Prints "The status code is 404"
 print("The status message is \(http404Error.1)") // Prints "The status message is Not Found"
-//:
 //: We can name the individual elements in a tuple when the tuple is defined:
 let http200Status = (statusCode: 200, description: "OK")
 //: If we name the elements in a tuple, we can use the element names to access the values of those elements:
 print("The status code is \(http200Status.statusCode)") // Prints "The status code is 200"
 print("The status message is \(http200Status.description)") // Prints "The status message is OK"
-//:
 //: Tuples are particularly useful as the return values of functions. A function that tries to retrieve a web page might return the `(Int, String)` tuple type to describe the success or failure of the page retrieval. By returning a tuple with two distinct values, each of a different type, the function provides more useful information about its outcome than if it could only return a single value of a single type.
+//: - NOTE:
+//: Tuples are useful for simple groups of related values. They’re not suited to the creation of complex data structures. If your data structure is likely to be more complex, model it as a class or structure, rather than as a tuple.
 //:
 //: ## Optionals
 //: An *optional* represents two possibilities: Either there *is* a value, and you can unwrap the optional to access that value, or there *isn’t* a value at all.
+//: - NOTE:
+//: The concept of optionals doesn’t exist in C or Objective-C. The nearest thing in Objective-C is the ability to return `nil` from a method that would otherwise return an object, with nil meaning “the absence of a valid object.” However, this only works for objects—it doesn’t work for structures, basic C types, or enumeration values. For these types, Objective-C methods typically return a special value (such as `NSNotFound`) to indicate the absence of a value. This approach assumes that the method’s caller knows there’s a special value to test against and remembers to check for it. Swift’s optionals let you indicate the absence of a value for *any type at all*, without the need for special constants.
+//:
 //: The example below uses the initializer to try to convert a `String` into an `Int`:
 let possibleNumber = "123"
 let convertedNumber = Int(possibleNumber) // convertedNumber is inferred to be of type "Int?", or "optional Int"
@@ -193,40 +203,61 @@ let convertedNumber = Int(possibleNumber) // convertedNumber is inferred to be o
 //: You set an optional variable to a valueless state by assigning it the special value `nil`:
 var serverResponseCode: Int? = 404 // serverResponseCode contains an actual Int value of 404
 serverResponseCode = nil // serverResponseCode now contains no value
+//: - NOTE:
+//: You can’t use  `nil` with non-optional constants and variables. If a constant or variable in your code needs to work with the absence of a value under certain conditions, always declare it as an optional value of the appropriate type.
 //:
 //: If you define an optional variable without providing a default value, the variable is automatically set to `nil` for you:
 var surveyAnswer: String? // surveyAnswer is automatically set to nil
+//: - NOTE:
+//: Swift’s `nil` isn’t the same as `nil` in Objective-C. In Objective-C, `nil` is a pointer to a nonexistent object. In Swift, `nil` isn’t a pointer—it’s the absence of a value of a certain type. Optionals of *any* type can be set to `nil`, not just object types.
 //:
 //: ### If Statements and Forced Unwrapping
-//: You can use an `if` statement to find out whether an optional contains a value by comparing the optional against `nil`. You perform this comparison with the “equal to” operator (`==`) or the “not equal to” operator (`!=`).
-//:
+//: You can use an `if` statement to find out whether an optional contains a value by comparing the optional against `nil`. You perform this comparison with the “equal to” operator (`==`) or the “not equal to” operator (`!=`). \
 //: If an optional has a value, it’s considered to be “not equal to” `nil`:
 if convertedNumber != nil {
     print("convertedNumber contains some integer value.")
 } // Prints "convertedNumber contains some integer value."
-//:
 //: Once you’re sure that the optional *does* contain a value, you can access its underlying value by adding an exclamation mark (!) to the end of the optional’s name. The exclamation mark effectively says, “I know that this optional definitely has a value; please use it.” This is known as *forced unwrapping* of the optional’s value:
 if convertedNumber != nil {
     print("convertedNumber has an integer value of \(convertedNumber!).")
 } // Prints "convertedNumber has an integer value of 123."
+//: - NOTE:
+//: Trying to use `!` to access a nonexistent optional value triggers a runtime error. Always make sure that an optional contains a non-`nil` value before using `!` to force-unwrap its value.
 //:
 //: ### Optional Binding
-//: You use *optional binding* to find out whether an optional contains a value, and if so, to make that value available as a temporary constant or variable. Optional binding can be used with `if` and `while` statements to check for a value inside an optional, and to extract that value into a constant or variable, as part of a single action.
-//:
+//: You use *optional binding* to find out whether an optional contains a value, and if so, to make that value available as a temporary constant or variable. Optional binding can be used with `if` and `while` statements to check for a value inside an optional, and to extract that value into a constant or variable, as part of a single action. \
+//: Write an optional binding for an if statement as follows:
+/*
+if let constantName = someOptional {
+    statements
+}
+*/
 //: You can rewrite the `possibleNumber` example from the *Optionals* section to use optional binding rather than forced unwrapping:
 if let actualNumber = Int(possibleNumber) {
     print("The string \"\(possibleNumber)\" has an integer value of \(actualNumber)")
 } else {
     print("The string \"\(possibleNumber)\" could not be converted to an integer")
 } // Prints "The string "123" has an integer value of 123"
-//: This code can be read as:
-//: “If the optional `Int` returned by `Int(possibleNumber)` contains a value, set a new constant called `actualNumber` to the value contained in the optional.”
+//: This code can be read as: \
+//: “If the optional `Int` returned by `Int(possibleNumber)` contains a value, set a new constant called `actualNumber` to the value contained in the optional.” \
+//: You can include as many optional bindings and Boolean conditions in a single `if` statement as you need to, separated by commas. If any of the values in the optional bindings are `nil` or any Boolean condition evaluates to `false`, the whole `if` statement’s condition is considered to be `false`. The following if statements are equivalent:
+if let firstNumber = Int("4"), let secondNumber = Int("42"), firstNumber < secondNumber && secondNumber < 100 {
+    print("\(firstNumber) < \(secondNumber) < 100")
+} // Prints "4 < 42 < 100"
+
+if let firstNumber = Int("4") {
+    if let secondNumber = Int("42") {
+        if firstNumber < secondNumber && secondNumber < 100 {
+            print("\(firstNumber) < \(secondNumber) < 100")
+        }
+    }
+} // Prints "4 < 42 < 100"
+//: - NOTE:
+//: Constants and variables created with optional binding in an `if` statement are available only within the body of the `if` statement. In contrast, the constants and variables created with a `guard` statement are available in the lines of code that follow the `guard` statement, as described in [Early Exit](https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html#ID525).
 //:
 //: ### Implicitly Unwrapped Optionals
-//: Sometimes it’s clear from a program’s structure that an optional will *always* have a value, after that value is first set. In these cases, it’s useful to remove the need to check and unwrap the optional’s value every time it’s accessed, because it can be safely assumed to have a value all of the time.
-//:
-//: These kinds of optionals are defined as *implicitly unwrapped optionals*. You write an implicitly unwrapped optional by placing an exclamation mark (`String!`) rather than a question mark (`String?`) after the type that you want to make optional.
-//:
+//: Sometimes it’s clear from a program’s structure that an optional will *always* have a value, after that value is first set. In these cases, it’s useful to remove the need to check and unwrap the optional’s value every time it’s accessed, because it can be safely assumed to have a value all of the time. \
+//: These kinds of optionals are defined as *implicitly unwrapped optionals*. You write an implicitly unwrapped optional by placing an exclamation mark (`String!`) rather than a question mark (`String?`) after the type that you want to make optional. \
 //: The following example shows the difference in behavior between an optional string and an implicitly unwrapped optional string when accessing their wrapped value as an explicit `String`:
 let possibleString: String? = "An optional string."
 let forcedString: String = possibleString! // requires an exclamation mark
@@ -234,6 +265,8 @@ let forcedString: String = possibleString! // requires an exclamation mark
 let assumedString: String! = "An implicitly unwrapped optional string."
 let implicitString: String = assumedString // no need for an exclamation mark
 //: You can think of an implicitly unwrapped optional as giving permission for the optional to be unwrapped automatically whenever it’s used. Rather than placing an exclamation mark after the optional’s name each time you use it, you place an exclamation mark after the optional’s type when you declare it.
+//: - NOTE:
+//: If an implicitly unwrapped optional is `nil` and you try to access its wrapped value, you’ll trigger a runtime error. The result is exactly the same as if you place an exclamation mark after a normal optional that doesn’t contain a value.
 //:
 //: You can still treat an implicitly unwrapped optional like a normal optional, to check if it contains a value:
 if assumedString != nil {
@@ -243,17 +276,17 @@ if assumedString != nil {
 if let definiteString = assumedString {
     print(definiteString)
 } // Prints "An implicitly unwrapped optional string."
+//: - NOTE:
+//: Don’t use an implicitly unwrapped optional when there’s a possibility of a variable becoming `nil` at a later point. Always use a normal optional type if you need to check for a `nil` value during the lifetime of a variable.
 //:
 //: ### Error Handling
-//: You use *error handling* to respond to error conditions your program may encounter during execution.
-//:
+//: You use *error handling* to respond to error conditions your program may encounter during execution. \
+//: In contrast to optionals, which can use the presence or absence of a value to communicate success or failure of a function, error handling allows you to determine the underlying cause of failure, and, if necessary, propagate the error to another part of your program. \
 //: When a function encounters an error condition, it *throws* an error. That function’s caller can then *catch* the error and respond appropriately.
 func canThrowAnError() throws {
     // this function may or may not throw an error
 }
-//:
-//: A function indicates that it can throw an error by including the `throws` keyword in its declaration. When you call a function that can throw an error, you prepend the `try` keyword to the expression.
-//:
+//: A function indicates that it can throw an error by including the `throws` keyword in its declaration. When you call a function that can throw an error, you prepend the `try` keyword to the expression. \
 //: Swift automatically propagates errors out of their current scope until they’re handled by a `catch` clause.
 do {
     try canThrowAnError()
@@ -261,9 +294,7 @@ do {
 } catch {
     // an error was thrown
 }
-//:
-//: A `do` statement creates a new containing scope, which allows errors to be propagated to one or more `catch` clauses.
-//:
+//: A `do` statement creates a new containing scope, which allows errors to be propagated to one or more `catch` clauses. \
 //: Here’s an example of how error handling can be used to respond to different error conditions:
 /*
 func makeASandwich() throws {
@@ -280,20 +311,16 @@ do {
  */
 //:
 //: ## Assertions and Preconditions
-//: *Assertions* and *preconditions* are checks that happen at runtime. You use them to make sure an essential condition is satisfied before executing any further code. If the Boolean condition in the assertion or precondition evaluates to `true`, code execution continues as usual. If the condition evaluates to `false`, the current state of the program is invalid; code execution ends, and your app is terminated.
-//:
+//: *Assertions* and *preconditions* are checks that happen at runtime. You use them to make sure an essential condition is satisfied before executing any further code. If the Boolean condition in the assertion or precondition evaluates to `true`, code execution continues as usual. If the condition evaluates to `false`, the current state of the program is invalid; code execution ends, and your app is terminated. \
 //: The difference between assertions and preconditions is in when they’re checked: Assertions are checked only in debug builds, but preconditions are checked in both debug and production builds.
 //:
 //: ### Debugging with Assertions
 //: You write an assertion by calling the `assert(_:_:file:line:)` function from the Swift standard library. You pass this function an expression that evaluates to `true` or `false` and a message to display if the result of the condition is `false`. For example:
 let age = -3
 //assert(age >= 0, "A person's age can't be less than zero.") // This assertion fails because -3 is not >= 0.
-//:
-//: In this example, code execution continues if `age >= 0` evaluates to `true`, that is, if the value of `age` is nonnegative. If the value of `age` is negative, as in the code above, then `age >= 0` evaluates to `false`, and the assertion fails, terminating the application.
-//:
+//: In this example, code execution continues if `age >= 0` evaluates to `true`, that is, if the value of `age` is nonnegative. If the value of `age` is negative, as in the code above, then `age >= 0` evaluates to `false`, and the assertion fails, terminating the application. \
 //: You can omit the assertion message—for example, when it would just repeat the condition as prose.
 //assert(age >= 0)
-//:
 //: If the code already checks the condition, you use the `assertionFailure(_:file:line:)` function to indicate that an assertion has failed. For example:
 if age > 10 {
     print("You can ride the roller-coaster or the ferris wheel.")
@@ -304,11 +331,13 @@ if age > 10 {
 }
 //:
 //: ### Enforcing Preconditions
-//: Use a precondition whenever a condition has the potential to be false, but must *definitely* be true for your code to continue execution. For example, use a precondition to check that a subscript is not out of bounds, or to check that a function has been passed a valid value.
-//:
+//: Use a precondition whenever a condition has the potential to be false, but must *definitely* be true for your code to continue execution. For example, use a precondition to check that a subscript is not out of bounds, or to check that a function has been passed a valid value. \
 //: You write a precondition by calling the `precondition(_:_:file:line:)` function. You pass this function an expression that evaluates to `true` or `false` and a message to display if the result of the condition is false. For example:
 // In the implementation of a subscript...
 //precondition(index > 0, "Index must be greater than zero.")
 //: You can also call the `preconditionFailure(_:file:line:)` function to indicate that a failure has occurred—for example, if the default case of a switch was taken, but all valid input data should have been handled by one of the switch’s other cases.
+//: - NOTE:
+//: If you compile in unchecked mode (`-Ounchecked`), preconditions aren’t checked. The compiler assumes that preconditions are always true, and it optimizes your code accordingly. However, the `fatalError(_:file:line:)` function always halts execution, regardless of optimization settings. \
+//: You can use the f`atalError(_:file:line:)` function during prototyping and early development to create stubs for functionality that hasn’t been implemented yet, by writing `fatalError("Unimplemented")` as the stub implementation. Because fatal errors are never optimized out, unlike assertions or preconditions, you can be sure that execution always halts if it encounters a stub implementation.
 //:
-//: [Next](@next)
+//: [Basic Operators >](@next)
