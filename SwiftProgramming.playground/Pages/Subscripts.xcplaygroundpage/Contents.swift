@@ -93,4 +93,15 @@ matrix[1, 0] = 3.2
 //: An assertion is triggered if you try to access a subscript that is outside of the matrix bounds:
 // let someValue = matrix[2, 2]
 // this triggers an assert, because [2, 2] is outside of the matrix bounds
+//:
+//: ## Type Subscripts
+//: Instance subscripts, as described above, are subscripts that you call on an instance of a particular type. You can also define subscripts that are called on the type itself. This kind of subscript is called a *type subscript*. You indicate a type subscript by writing the `static` keyword before the `subscript` keyword. Classes can use the `class` keyword instead, to allow subclasses to override the superclass’s implementation of that subscript. The example below shows how you define and call a type subscript:
+enum Planet: Int {
+    case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
+    static subscript(n: Int) -> Planet {
+        return Planet(rawValue: n)!
+    }
+}
+let mars = Planet[4]
+print(mars)
 //: [Inheritance >](@next)
